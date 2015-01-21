@@ -4,6 +4,7 @@
 
 #include <SupportSDK/Math/VectorConstructor.h>
 
+#include <GL/glew.h>
 #include <GL/GL.h>
 #include <GL/GLU.h>
 
@@ -120,7 +121,9 @@ namespace
 
 OpenGLRenderer::OpenGLRenderer(HWND i_wnd, IRect i_paint_region)
 	: m_paint_rectangle(i_paint_region)
-	, m_window(i_wnd)
+	, mh_window(i_wnd)
+	, mh_dc(nullptr)
+	, mh_rc(nullptr)
 	{
 	}
 
@@ -131,12 +134,34 @@ OpenGLRenderer::~OpenGLRenderer()
 
 void OpenGLRenderer::Initialize()
 	{
+	mh_dc = GetDC(mh_window);
+
+	PIXELFORMATDESCRIPTOR pfd;
+	ZeroMemory(&pfd, sizeof(pfd));
+	pfd.nSize = sizeof(pfd);
+	pfd.nVersion = 1;
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+	pfd.iPixelType = PFD_TYPE_RGBA;
+	pfd.cColorBits = 24;
+	pfd.cDepthBits = 24;
+	pfd.cStencilBits = 8;
+	pfd.iLayerType = PFD_MAIN_PLANE;
+	int pixel_format = ChoosePixelFormat(mh_dc, &pfd);
+	SetPixelFormat(mh_dc, pixel_format, &pfd);
+
+	mh_rc = wglCreateContext(mh_dc);
+	m_render_context_id = reinterpret_cast<SDK::uint64>(mh_rc);
+
+	wglMakeCurrent(mh_dc, mh_rc);
 	
+	glewInit();
 	}
 
 void OpenGLRenderer::Release()
 	{
-	
+	wglMakeCurrent(0, 0);
+	wglDeleteContext(mh_rc);
+	ReleaseDC(mh_window, mh_dc);
 	}
 
 IRect OpenGLRenderer::GetTargetRectangle()
@@ -147,7 +172,7 @@ IRect OpenGLRenderer::GetTargetRectangle()
 void OpenGLRenderer::Reshape()
 	{
 	RECT rc;
-	GetClientRect(m_window, &rc);
+	GetClientRect(mh_window, &rc);
 
 	const int width		= rc.right - rc.left;
 	const int height	= rc.bottom - rc.top;

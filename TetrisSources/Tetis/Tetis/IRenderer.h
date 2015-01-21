@@ -35,8 +35,14 @@ class IRenderer
 			std::function<void(IRenderer&)> m_draw_function;
 			Color m_clear_color;
 
+			// pointer to render context
+			SDK::uint64	m_render_context_id;
+
 		public:
+			IRenderer() : m_render_context_id(0){}
 			virtual ~IRenderer(){}
+
+			SDK::uint64 GetRenderContextID() const { return m_render_context_id; }
 
 			virtual void Initialize() = 0;
 			virtual void Release() = 0;

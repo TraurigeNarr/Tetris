@@ -2,6 +2,8 @@
 
 #include "Application.h"
 
+#include "OpenGLRenderer.h"
+
 #include <Windows.h>
 #include <time.h>
 
@@ -66,6 +68,7 @@ namespace TetrisGame
 	Application::Application()
 		: m_working(false)
 		, mh_instance(nullptr)
+		, mp_renderer(nullptr)
 		{}
 
 	Application::~Application()
@@ -124,7 +127,6 @@ namespace TetrisGame
 		// fix ugly ATI driver bugs. Thanks to ariaci (Taken from Irrlight).
 		MoveWindow(mh_window, windowLeft, windowTop, realWidth, realHeight, TRUE);
 		SetWindowText(mh_window, class_name);
-		// initialize renderer
 
 		// move window
 		clientSize.top = 0;
@@ -141,14 +143,16 @@ namespace TetrisGame
 		windowTop = (GetSystemMetrics(SM_CYSCREEN) - realHeight) / 2;
 		MoveWindow(mh_window, windowLeft, windowTop, realWidth, realHeight, TRUE);
 
-		RAWINPUTDEVICE Rid[2];
+		// initialize renderer
+		mp_renderer.reset(new OpenGLRenderer(mh_window, IRect()));
+		mp_renderer->Reshape();
 
+		RAWINPUTDEVICE Rid[2];
 		// Keyboard
 		Rid[0].usUsagePage = 0x01;
 		Rid[0].usUsage = 0x06;
 		Rid[0].dwFlags = 0;
 		Rid[0].hwndTarget = NULL;
-
 		// Mouse
 		Rid[1].usUsagePage = 0x01;
 		Rid[1].usUsage = 0x02;
@@ -190,7 +194,9 @@ namespace TetrisGame
 					m_working = false;
 					}
 
-
+				mp_renderer->SetClearColor(Color(200, 0, 0, 150));
+				mp_renderer->RenderScene();
+				
 				SDK::uint64 elapsed_time = (GetAbsoluteMS() - start_time);
 				int sleep_ms = 1;
 				
@@ -206,7 +212,8 @@ namespace TetrisGame
 
 	void Application::Release()
 		{
-
+		mp_renderer->Release();
+		mp_renderer.reset();
 		}
 
 	void Application::RequestShutdown()

@@ -1,6 +1,8 @@
 #ifndef __TETRISAPPLICATION_H__
 #define __TETRISAPPLICATION_H__
 
+class IRenderer;
+
 namespace TetrisGame
 	{
 	
@@ -8,6 +10,8 @@ namespace TetrisGame
 		{
 		private:
 			bool m_working;
+
+			std::unique_ptr<IRenderer> mp_renderer;
 
 		// win specific
 		private:

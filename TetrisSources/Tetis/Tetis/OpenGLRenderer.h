@@ -7,7 +7,9 @@ class OpenGLRenderer : public IRenderer
 	{
 	private:
 		IRect				m_paint_rectangle;
-		HWND				m_window;
+		HWND				mh_window;
+		HDC					mh_dc;
+		HGLRC				mh_rc;
 		int         m_pixel_format;
 
 	public:
@@ -27,6 +29,8 @@ class OpenGLRenderer : public IRenderer
 		virtual void RenderScene() override;
 		
 		virtual IRect GetTargetRectangle() override;
+
+
 	};
 
 #endif
