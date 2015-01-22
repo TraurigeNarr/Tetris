@@ -214,13 +214,13 @@ void OpenGLRenderer::RenderText(const Vector3D& i_position, const std::string& i
 	//freetype::print(m_font_data, i_position.GetX(), m_paint_rectangle.Height() - i_position.GetY(), "%s", i_text.c_str());
 	}
 
-void OpenGLRenderer::RenderScene()
+void OpenGLRenderer::BeginFrame()
 	{
 	_Clear(m_clear_color);
+	}
 
-	if (m_draw_function)
-		m_draw_function(*this);
-
+void OpenGLRenderer::EndFrame()
+	{
 	glFinish();
 	SwapBuffers(wglGetCurrentDC());
 	}

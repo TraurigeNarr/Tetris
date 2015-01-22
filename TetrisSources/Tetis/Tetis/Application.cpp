@@ -4,6 +4,8 @@
 
 #include "OpenGLRenderer.h"
 
+#include <SupportSDK/Math/VectorConstructor.h>
+
 #include <Windows.h>
 #include <time.h>
 
@@ -54,7 +56,6 @@ namespace
 
 	}
 
-#include <SupportSDK/Math/VectorConstructor.h>
 namespace TetrisGame
 	{
 	
@@ -197,8 +198,7 @@ namespace TetrisGame
 			};
 
 		mp_renderer->SetClearColor(Color(0, 0, 0, 255));
-		mp_renderer->SetDrawSceneFunction(render);
-
+		
 		MSG msg;
 		while (m_working)
 			{
@@ -224,7 +224,9 @@ namespace TetrisGame
 					}
 				} // peek message cycle
 
-			mp_renderer->RenderScene();
+			mp_renderer->BeginFrame();
+			render(*mp_renderer);
+			mp_renderer->EndFrame();
 
 			SDK::uint64 elapsed_time = (GetAbsoluteMS() - start_time);
 			int sleep_ms = 1;
