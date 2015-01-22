@@ -62,46 +62,6 @@ namespace
 		return std::string(buffer).substr(0, pos);
 		}
 
-	bool _SetupPixelFormat(int& o_pixel_format, HDC ip_hdc)
-		{
-		static PIXELFORMATDESCRIPTOR pfd =
-			{
-			sizeof(PIXELFORMATDESCRIPTOR), // size of this pfd
-			1, // version number
-			PFD_DRAW_TO_WINDOW | // support window
-			PFD_SUPPORT_OPENGL | // support OpenGL
-			PFD_DOUBLEBUFFER, // double buffered
-			PFD_TYPE_RGBA, // RGBA type
-			24, // 24-bit color depth
-			0, 0, 0, 0, 0, 0, // color bits ignored
-			0, // no alpha buffer
-			0, // shift bit ignored
-			0, // no accumulation buffer
-			0, 0, 0, 0, // accum bits ignored
-			32, // 32-bit z-buffer
-			0, // no stencil buffer
-			0, // no auxiliary buffer
-			PFD_MAIN_PLANE, // main layer
-			0, // reserved
-			0, 0, 0 // layer masks ignored
-			};
-
-		o_pixel_format = 0;
-
-		if ((o_pixel_format = ChoosePixelFormat(ip_hdc, &pfd)) == 0)
-			{
-			AfxMessageBox(L"ChoosePixelFormat failed");
-			return false;
-			}
-
-		if (SetPixelFormat(ip_hdc, o_pixel_format, &pfd) == FALSE)
-			{
-			AfxMessageBox(L"SetPixelFormat failed");
-			return false;
-			}
-		return true;
-		}
-
 	void _InitFreeType(freetype::font_data& o_font_data)
 		{
 		o_font_data.init((ExePath() + "\\font.TTF").c_str(), 8);

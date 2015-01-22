@@ -54,7 +54,7 @@ namespace
 
 	}
 
-
+#include <SupportSDK/Math/VectorConstructor.h>
 namespace TetrisGame
 	{
 	
@@ -145,6 +145,7 @@ namespace TetrisGame
 
 		// initialize renderer
 		mp_renderer.reset(new OpenGLRenderer(mh_window, IRect()));
+		mp_renderer->Initialize();
 		mp_renderer->Reshape();
 
 		RAWINPUTDEVICE Rid[2];
@@ -170,13 +171,41 @@ namespace TetrisGame
 		{
 		m_working = true;
 
+		float angle = .0f;
+		std::vector<std::pair<Vector3D,float>> lines;
+		std::srand(time(NULL));
+		lines.reserve(100);
+		for (int i = 0; i < 100; ++i)
+			{
+			auto first = SDK::Math::VectorConstructor<float>::Construct(std::rand() % CONTENT_WIDTH, std::rand() % CONTENT_HEIGHT, 0);
+			float radius = static_cast<float>(std::rand()%100);
+			lines.emplace_back(std::make_pair(first, radius));
+			}
+
+		auto render = [&lines, &angle](IRenderer& i_renderer)
+			{
+			for (auto line : lines)
+				{
+				//i_center[0] + cos(i)*i_radius, i_center[1] + sin(i)*i_radius, 0.0
+				float cosine = std::cos(angle)*line.second;
+				float sinus = std::sin(angle)*line.second;
+				auto first = SDK::Math::VectorConstructor<float>::Construct(line.first[0] + cosine, line.first[0] + sinus, 0);
+				auto second = SDK::Math::VectorConstructor<float>::Construct(line.first[0] - cosine, line.first[0] - sinus, 0);
+				i_renderer.RenderLine(first, second, Color(255, 0, 0, 255), 5.f);
+				}
+			angle += .1f;
+			};
+
+		mp_renderer->SetClearColor(Color(0, 0, 0, 255));
+		mp_renderer->SetDrawSceneFunction(render);
+
 		MSG msg;
 		while (m_working)
 			{
+			SDK::uint64 start_time = GetAbsoluteMS();
 			// process messages
 			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 				{
-				SDK::uint64 start_time = GetAbsoluteMS();
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 
@@ -193,20 +222,19 @@ namespace TetrisGame
 					}*/
 					m_working = false;
 					}
-
-				mp_renderer->SetClearColor(Color(200, 0, 0, 150));
-				mp_renderer->RenderScene();
-				
-				SDK::uint64 elapsed_time = (GetAbsoluteMS() - start_time);
-				int sleep_ms = 1;
-				
-				const int FPS = 60;
-				const int frame_time = 1000 / FPS;
-				sleep_ms = static_cast<int>(frame_time - elapsed_time);
-				if (sleep_ms < 1)
-					sleep_ms = 1;
-				//Sleep(sleep_ms);
 				} // peek message cycle
+
+			mp_renderer->RenderScene();
+
+			SDK::uint64 elapsed_time = (GetAbsoluteMS() - start_time);
+			int sleep_ms = 1;
+
+			const int FPS = 60;
+			const int frame_time = 1000 / FPS;
+			sleep_ms = static_cast<int>(frame_time - elapsed_time);
+			if (sleep_ms < 1)
+				sleep_ms = 1;
+			Sleep(sleep_ms);
 			} // main cycle
 		}
 
