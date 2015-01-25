@@ -43,6 +43,18 @@ void GameManager::Initialize()
 	mp_current = mp_randomizer->GetNext(*mp_game_field, mp_solver.get());
 	}
 
+bool GameManager::CheckField()
+	{
+	const size_t up_line = mp_game_field->GetHeight() - 1;
+	const size_t f_width = mp_game_field->GetWidth();
+	for (size_t i = 0; i < f_width; ++i)
+		{
+		if (!mp_game_field->IsCellFree(i, up_line))
+			return false;
+		}
+	return true;
+	}
+
 void GameManager::Draw(IRenderer& i_renderer)
 	{
 	mp_game_field->Draw(i_renderer);
@@ -53,7 +65,7 @@ void GameManager::Update(float i_elapsed_time)
 	if (mp_current != nullptr)
 		{
 		mp_current->Update(i_elapsed_time);
-		if (mp_current->IsDestroyed())
+		if (mp_current->IsDestroyed() && CheckField())
 			mp_current = mp_randomizer->GetNext(*mp_game_field, mp_solver.get());
 		}
 

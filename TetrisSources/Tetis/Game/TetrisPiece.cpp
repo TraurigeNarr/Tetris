@@ -10,7 +10,7 @@ TetrisPiece::TetrisPiece(PieceType i_type, IField& i_field, ISolver* ip_solver)
 	, m_type(i_type)
 	, m_field(i_field)
 	, mp_solver(ip_solver)
-	, m_time_for_one_move(.03f)
+	, m_time_for_one_move(.01f)
 	, m_current_time(.0f)
 	{
 	Initialize();

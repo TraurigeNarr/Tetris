@@ -17,6 +17,9 @@ class GameManager
 
 		std::unique_ptr<TetrisPiece> mp_current;
 
+	private:
+		bool CheckField();
+
 	public:
 		GameManager(std::unique_ptr<IField>&& ip_game_field);
 		GameManager(const IRect& i_window_rect);
