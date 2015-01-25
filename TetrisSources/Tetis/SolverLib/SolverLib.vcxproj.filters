@@ -1,27 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Solver">
+      <UniqueIdentifier>{44b99a01-6db2-4aa7-bc75-ec2c2549c56d}</UniqueIdentifier>
+    </Filter>
     <Filter Include="_Maintanance">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Main">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Main\Renderer">
-      <UniqueIdentifier>{0104d416-48af-445f-a302-e478abe34cf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>_Maintanance</Filter>
     </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Main</Filter>
+    <ClInclude Include="_Link.h">
+      <Filter>_Maintanance</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLRenderer.h">
-      <Filter>Main\Renderer</Filter>
+    <ClInclude Include="SolverImplementation.h">
+      <Filter>Solver</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -31,14 +27,8 @@
     <ClCompile Include="_LinkLibraries.cpp">
       <Filter>_Maintanance</Filter>
     </ClCompile>
-    <ClCompile Include="TetrisMain.cpp">
-      <Filter>_Maintanance</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGLRenderer.cpp">
-      <Filter>Main\Renderer</Filter>
+    <ClCompile Include="SolverImplementation.cpp">
+      <Filter>Solver</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

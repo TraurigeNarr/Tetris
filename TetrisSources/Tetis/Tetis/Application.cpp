@@ -8,6 +8,8 @@
 #include "Game/IRandomizer.h"
 #include "Game/ISolver.h"
 
+#include "SolverLib/SolverImplementation.h"
+
 #include <SupportSDK/Math/VectorConstructor.h>
 
 #include <Windows.h>
@@ -173,6 +175,7 @@ namespace TetrisGame
 
 		mp_manager.reset(new GameManager(mp_renderer->GetTargetRectangle()));
 		mp_manager->Initialize();
+		mp_manager->SetSolver(std::unique_ptr<ISolver>(new SolverImplementation()));
 		}
 
 	void Application::Start()

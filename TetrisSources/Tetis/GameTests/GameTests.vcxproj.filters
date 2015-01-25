@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="_Maintanance">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{685485d7-be01-4f52-ac60-9d43858a1932}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>_Maintanance</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>_Maintanance</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTests.cpp">
+      <Filter>_Maintanance</Filter>
+    </ClCompile>
+    <ClCompile Include="_LinkLibraries.cpp">
+      <Filter>_Maintanance</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

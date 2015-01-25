@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Game/_Link.h"
+#include "SolverLib/_Link.h"
 
 #pragma comment(lib, "opengl32")
 
