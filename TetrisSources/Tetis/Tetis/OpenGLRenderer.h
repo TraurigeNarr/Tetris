@@ -1,7 +1,7 @@
 #ifndef __OPENGLRENDERER_H__
 #define __OPENGLRENDERER_H__
 
-#include "IRenderer.h"
+#include "Game/IRenderer.h"
 
 class OpenGLRenderer : public IRenderer
 	{

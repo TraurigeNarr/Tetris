@@ -12,6 +12,9 @@
     <Filter Include="Main\Renderer">
       <UniqueIdentifier>{0104d416-48af-445f-a302-e478abe34cf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{fbec433d-4068-4350-8e0b-c6336de81717}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -19,12 +22,6 @@
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderer.h">
-      <Filter>Main\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="TetrisTypes.h">
-      <Filter>_Maintanance</Filter>
     </ClInclude>
     <ClInclude Include="OpenGLRenderer.h">
       <Filter>Main\Renderer</Filter>

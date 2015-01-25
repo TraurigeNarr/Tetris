@@ -5,6 +5,7 @@
 #include <SupportSDK/Math/Rectangle.h>
 
 typedef SDK::Math::Vector<float, 3> Vector3D;
+typedef SDK::Math::Vector<float, 2> Vector2D;
 typedef SDK::Math::Rectangle<float> FRect;
 typedef SDK::Math::Rectangle<int> IRect;
 

@@ -4,6 +4,8 @@
 
 #include "OpenGLRenderer.h"
 
+#include "Game/GameManager.h"
+
 #include <SupportSDK/Math/VectorConstructor.h>
 
 #include <Windows.h>
@@ -166,36 +168,13 @@ namespace TetrisGame
 
 		// initialize timer
 		QueryPerformanceFrequency(&liFrequency);
+
+		mp_manager.reset(new GameManager(mp_renderer->GetTargetRectangle()));
 		}
 
 	void Application::Start()
 		{
 		m_working = true;
-
-		float angle = .0f;
-		std::vector<std::pair<Vector3D,float>> lines;
-		std::srand(time(NULL));
-		lines.reserve(100);
-		for (int i = 0; i < 100; ++i)
-			{
-			auto first = SDK::Math::VectorConstructor<float>::Construct(std::rand() % CONTENT_WIDTH, std::rand() % CONTENT_HEIGHT, 0);
-			float radius = static_cast<float>(std::rand()%100);
-			lines.emplace_back(std::make_pair(first, radius));
-			}
-
-		auto render = [&lines, &angle](IRenderer& i_renderer)
-			{
-			for (auto line : lines)
-				{
-				//i_center[0] + cos(i)*i_radius, i_center[1] + sin(i)*i_radius, 0.0
-				float cosine = std::cos(angle)*line.second;
-				float sinus = std::sin(angle)*line.second;
-				auto first = SDK::Math::VectorConstructor<float>::Construct(line.first[0] + cosine, line.first[0] + sinus, 0);
-				auto second = SDK::Math::VectorConstructor<float>::Construct(line.first[0] - cosine, line.first[0] - sinus, 0);
-				i_renderer.RenderLine(first, second, Color(255, 0, 0, 255), 5.f);
-				}
-			angle += .1f;
-			};
 
 		mp_renderer->SetClearColor(Color(0, 0, 0, 255));
 		
@@ -225,7 +204,9 @@ namespace TetrisGame
 				} // peek message cycle
 
 			mp_renderer->BeginFrame();
-			render(*mp_renderer);
+			mp_manager->Draw(*mp_renderer);
+			// TODO: use correct time
+			mp_manager->Update(0.001f);
 			mp_renderer->EndFrame();
 
 			SDK::uint64 elapsed_time = (GetAbsoluteMS() - start_time);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Game/TetrisTypes.h"
+#include "TetrisTypes.h"
 
 #include <algorithm>
 #include <array>
@@ -13,7 +13,5 @@
 #include <tchar.h>
 #include <unordered_map>
 #include <vector>
-
-#include <Windows.h>
 
 #include <SupportSDK/Utilities/TypeDefines.h>
