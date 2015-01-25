@@ -92,13 +92,12 @@
   <ItemGroup>
     <ClInclude Include="GameField.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="IField.h" />
     <ClInclude Include="IPieceController.h" />
     <ClInclude Include="IRandomizer.h" />
     <ClInclude Include="IRenderer.h" />
     <ClInclude Include="ISolver.h" />
-    <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="PieceType.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TetrisPiece.h" />
     <ClInclude Include="TetrisTypes.h" />
@@ -107,12 +106,11 @@
   <ItemGroup>
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="GamManager.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TetrisPiececpp" />
+    <ClCompile Include="TetrisPiece.cpp" />
     <ClCompile Include="_LinkingLibraries.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

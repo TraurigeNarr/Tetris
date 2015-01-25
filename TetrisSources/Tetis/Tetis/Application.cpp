@@ -5,6 +5,8 @@
 #include "OpenGLRenderer.h"
 
 #include "Game/GameManager.h"
+#include "Game/IRandomizer.h"
+#include "Game/ISolver.h"
 
 #include <SupportSDK/Math/VectorConstructor.h>
 
@@ -170,6 +172,7 @@ namespace TetrisGame
 		QueryPerformanceFrequency(&liFrequency);
 
 		mp_manager.reset(new GameManager(mp_renderer->GetTargetRectangle()));
+		mp_manager->Initialize();
 		}
 
 	void Application::Start()

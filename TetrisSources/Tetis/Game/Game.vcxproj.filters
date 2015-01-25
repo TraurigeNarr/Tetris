@@ -11,6 +11,9 @@
     <Filter Include="Objects">
       <UniqueIdentifier>{39b32865-189f-43fe-b772-7b672ebbbfc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Interfaces">
+      <UniqueIdentifier>{a20fb0a0-3b4c-4a69-876a-9ee913cde879}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -19,46 +22,40 @@
     <ClInclude Include="_Link.h">
       <Filter>_Maintanance</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="IRenderer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="TetrisTypes.h">
       <Filter>_Maintanance</Filter>
     </ClInclude>
     <ClInclude Include="GameField.h">
       <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="IField.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="IRandomizer.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="IPieceController.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="ISolver.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="TetrisPiece.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="PieceType.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="IField.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IPieceController.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IRandomizer.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderer.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="ISolver.h">
+      <Filter>Core\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>_Maintanance</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="_LinkingLibraries.cpp">
       <Filter>_Maintanance</Filter>
@@ -69,7 +66,7 @@
     <ClCompile Include="GamManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="TetrisPiececpp">
+    <ClCompile Include="TetrisPiece.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>

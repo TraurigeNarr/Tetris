@@ -42,19 +42,28 @@ void GameField::InitializeField()
 GameField::~GameField()
 	{}
 
+size_t GameField::GetPosition(size_t x, size_t y) const
+	{
+	size_t row = y*m_field_width;
+	size_t position = row + x;
+	if (position >= m_field.size())
+		throw std::logic_error("Position should be less than field size");
+	return position;
+	}
+
 bool GameField::IsCellFree(size_t x, size_t y) const
 	{
-	return false;
+	return m_field[GetPosition(x, y)] == false;
 	}
 
 void GameField::OccupyCell(size_t x, size_t y)
 	{
-
+	m_field[GetPosition(x, y)] = true;
 	}
 
 void GameField::FreeCell(size_t x, size_t y)
 	{
-
+	m_field[GetPosition(x, y)] = false;
 	}
 
 void GameField::Draw(IRenderer& i_renderer)
@@ -65,7 +74,7 @@ void GameField::Draw(IRenderer& i_renderer)
 	auto height = static_cast<float>(rect.Height());
 
 	Vector2D bottomleft = VectorConstructor<float>::Construct(width / 2, height / 2);
-	bottomleft[0] += (m_cell_size*m_field_width)/2;
+	bottomleft[0] -= (m_cell_size*m_field_width)/2;
 	bottomleft[1] += (m_cell_size*m_field_height)/2;
 
 	width = m_cell_size*m_field_width;
@@ -74,14 +83,14 @@ void GameField::Draw(IRenderer& i_renderer)
 	for (size_t i = 0; i < m_field_height+1; ++i)
 		{
 		i_renderer.RenderLine(VectorConstructor<float>::Construct(bottomleft[0], bottomleft[1] - m_cell_size*i, 0.f),
-			VectorConstructor<float>::Construct(bottomleft[0] - width, bottomleft[1] - m_cell_size*i, 0.f),
+			VectorConstructor<float>::Construct(bottomleft[0] + width, bottomleft[1] - m_cell_size*i, 0.f),
 													Color(255, 255, 255, 255));
 		}
 	
 	for (size_t i = 0; i < m_field_width+1; ++i)
 		{
-		i_renderer.RenderLine(VectorConstructor<float>::Construct(bottomleft[0] - m_cell_size*i, bottomleft[1], 0.f),
-			VectorConstructor<float>::Construct(bottomleft[0] - m_cell_size*i, bottomleft[1] - height, 0.f),
+		i_renderer.RenderLine(VectorConstructor<float>::Construct(bottomleft[0] + m_cell_size*i, bottomleft[1], 0.f),
+			VectorConstructor<float>::Construct(bottomleft[0] + m_cell_size*i, bottomleft[1] - height, 0.f),
 													Color(255, 255, 255, 255));
 		}
 
@@ -92,7 +101,7 @@ void GameField::Draw(IRenderer& i_renderer)
 			{
 			int row = i / m_field_width;
 			int collumn = i % m_field_width;
-			Vector3D center = VectorConstructor<float>::Construct(bottomleft[0] - m_cell_size*(collumn + 0.5f), bottomleft[1] - m_cell_size*(row + 0.5f), 0.f);
+			Vector3D center = VectorConstructor<float>::Construct(bottomleft[0] + m_cell_size*(collumn + 0.5f), bottomleft[1] - m_cell_size*(row + 0.5f), 0.f);
 			i_renderer.RenderRectangle(center, m_cell_size-1.f, m_cell_size-1.f, Color(0, 100, 0, 255));
 			}
 		}

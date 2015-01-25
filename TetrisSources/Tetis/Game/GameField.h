@@ -19,6 +19,8 @@ class GameField : public IField
 	private:
 		void InitializeField();
 
+		size_t GetPosition(size_t x, size_t y) const;
+
 	public:
 		GameField(const IRect& i_window_rect, size_t i_field_width, size_t i_field_height);
 		virtual ~GameField();
