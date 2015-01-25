@@ -133,18 +133,17 @@ void TetrisPiece::Update(float i_elapsed_time)
 	{
 	// prepare move and caculate can we move or not
 	PrepareMove(i_elapsed_time);
-
+	// free cells that this piece occupy
+	UpdateField(true);
+	// make real movement
+	Move();
+	// occupy cells (may be same or changed)
+	UpdateField(false);
 	// solve problem (input from user or AI)
+	// will be in next frame
 	IPieceController piece_controller;
 	if (mp_solver != nullptr)
 		mp_solver->Solve(piece_controller, m_field);
-
-	// free cells that this piece occupy
-	UpdateField(true);
-	Move();
-
-	// occupy cells (may be same or changed)
-	UpdateField(false);
 	}
 
 bool TetrisPiece::TurnRight()
