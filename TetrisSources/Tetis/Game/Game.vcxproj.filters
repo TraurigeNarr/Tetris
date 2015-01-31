@@ -72,7 +72,7 @@
     <ClCompile Include="BasicRandomizer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="GamManager.cpp">
+    <ClCompile Include="GameManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

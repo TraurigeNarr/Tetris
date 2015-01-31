@@ -11,6 +11,8 @@
 #include "PieceType.h"
 #include "BasicRandomizer.h"
 
+#include <time.h>
+
 namespace
 	{
 	class RandomizerBase : public IRandomizer
@@ -43,6 +45,7 @@ GameManager::~GameManager()
 void GameManager::Initialize()
 	{
 	mp_current = mp_randomizer->GetNext(*mp_game_field, mp_solver.get());
+	srand(time(NULL));
 	}
 
 bool GameManager::CheckField()
