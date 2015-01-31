@@ -90,6 +90,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BasicRandomizer.h" />
     <ClInclude Include="GameField.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="IField.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="_Link.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BasicRandomizer.cpp" />
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="GamManager.cpp" />
     <ClCompile Include="stdafx.cpp">

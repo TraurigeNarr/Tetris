@@ -30,6 +30,7 @@ class TetrisPiece
 	private:
 		void UpdateField(bool i_free_cells);
 		void Initialize();
+		void CalculateSize();
 		bool CanMove(int i_delta_x, int i_delta_y) const;
 		void PrepareMove(float i_elapsed_time);
 		void Move();

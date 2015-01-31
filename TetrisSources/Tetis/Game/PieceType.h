@@ -3,8 +3,8 @@
 
 enum class PieceType
 	{
-	I,
 	O,
+	I,
 	L,
 	J,
 	S,

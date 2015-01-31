@@ -9,6 +9,7 @@
 #include "ISolver.h"
 #include "IPieceController.h"
 #include "PieceType.h"
+#include "BasicRandomizer.h"
 
 namespace
 	{
@@ -27,10 +28,10 @@ GameManager::GameManager(std::unique_ptr<IField>&& ip_game_field)
 	{}
 
 GameManager::GameManager(const IRect& i_window_rect)
-	:	mp_game_field(new GameField(i_window_rect, 10, 15))
+	:	mp_game_field(new GameField(i_window_rect, 10, 20))
 	, mp_current(nullptr)
 	, mp_solver(nullptr)
-	, mp_randomizer(new RandomizerBase())
+	, mp_randomizer(new BasicRandomizer())
 	{
 	}
 

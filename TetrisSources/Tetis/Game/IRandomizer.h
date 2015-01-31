@@ -4,15 +4,25 @@
 class TetrisPiece;
 struct IField;
 class ISolver;
+enum class PieceType;
 
 struct RandomizerParameters
 	{
-
+	struct TypeParameters
+		{
+		PieceType m_piece;
+		bool			m_rotate;
+		TypeParameters(PieceType i_type, bool i_rotate)
+			: m_piece(i_type)
+			, m_rotate(i_rotate)
+			{}
+		};
+	std::vector<TypeParameters> m_type_for_generation;
 	};
 
 class IRandomizer
 	{
-	private:
+	protected:
 		RandomizerParameters m_parameters;
 
 	public:

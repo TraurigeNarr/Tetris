@@ -4,6 +4,7 @@
 #include "IField.h"
 #include "ISolver.h"
 #include "IPieceController.h"
+#include "PieceType.h"
 
 TetrisPiece::TetrisPiece(PieceType i_type, IField& i_field, ISolver* ip_solver)
 	: m_destroyed(false)
@@ -29,56 +30,98 @@ void TetrisPiece::Shift(int i_delta_x, int i_delta_y)
 	m_position_y += i_delta_y;
 	}
 
+void TetrisPiece::CalculateSize()
+	{
+	m_width = 0;
+	m_height = 0;
+	// should be reverse cycle -> 4 .. 0
+	for (size_t i = 0; i < 4; ++i)
+		for (size_t j = 0; j < 4; ++j)
+			if (m_shape_array[i][j] != 0)
+				{
+				m_width = i;
+				m_height = std::max(j, m_height);
+				}
+	++m_width;
+	++m_height;
+	}
+
 void TetrisPiece::Initialize()
 	{
 	for (size_t i = 0; i < 4; ++i)
 		for (size_t j = 0; j < 4; ++j)
 			m_shape_array[i][j] = 0;
-	// box
-	m_shape_array[0][0] = 1;
-	m_shape_array[1][0] = 1;
-	m_shape_array[0][1] = 1;
-	m_shape_array[1][1] = 1;
+	
+	switch (m_type)
+		{
+		case PieceType::O:
+			m_shape_array[0][0] = 1;
+			m_shape_array[1][0] = 1;
+			m_shape_array[0][1] = 1;
+			m_shape_array[1][1] = 1;
+			break;
+		case PieceType::L:
+			m_shape_array[0][0] = 1;
+			m_shape_array[1][0] = 1;
+			m_shape_array[0][1] = 1;
+			m_shape_array[0][2] = 1;
+			break;
+		case PieceType::I:
+			m_shape_array[0][0] = 1;
+			m_shape_array[0][1] = 1;
+			m_shape_array[0][2] = 1;
+			m_shape_array[0][3] = 1;
+			break;
+		case PieceType::J:
+			m_shape_array[0][0] = 1;
+			m_shape_array[1][0] = 1;
+			m_shape_array[1][1] = 1;
+			m_shape_array[1][2] = 1;
+			break;
+		case PieceType::S:
+			m_shape_array[0][0] = 1;
+			m_shape_array[0][1] = 1;
+			m_shape_array[1][1] = 1;
+			m_shape_array[1][2] = 1;
+			break;
+		case PieceType::Z:
+			m_shape_array[0][1] = 1;
+			m_shape_array[0][2] = 1;
+			m_shape_array[1][0] = 1;
+			m_shape_array[1][1] = 1;
+			break;
+		case PieceType::T:
+			m_shape_array[0][0] = 1;
+			m_shape_array[1][0] = 1;
+			m_shape_array[2][0] = 1;
+			m_shape_array[1][1] = 1;
+			break;
+		}
+
 	m_position_x = 0;
 	m_position_y = 0;
-	m_width = 2;
-	m_height = 2;
+	CalculateSize();
 	Shift((m_field.GetWidth()-m_width)/2, m_field.GetHeight()-m_height);
 	}
 
 bool TetrisPiece::CanMove(int i_delta_x, int i_delta_y) const
 	{
-	bool bottom_line_found = false;
-
-	size_t bottom_line = 0;
 	for (size_t i = 0; i < 4; ++i)
 		{
-		int position_x = i + m_position_x + i_delta_x;
-		if (position_x < 0)
-			return false;
-
 		for (size_t j = 0; j < 4; ++j)
 			{
+			const int position_x = i + m_position_x + i_delta_x;
+			const int position_y = j + m_position_y + i_delta_y;
+			if (position_x < 0 || position_x + m_width > m_field.GetWidth()
+				|| (position_y-j) + m_height > m_field.GetHeight() || position_y < 0)
+				return false;
 			if (m_shape_array[i][j] != 0)
 				{
-				bottom_line = j;
-				break;
+				if (!m_field.IsCellFree(position_x, position_y))
+					return false;
+				else
+					break;
 				}
-			}
-		}
-
-	for (size_t i = 0; i < 4; ++i)
-		{
-		const int position_x = i + m_position_x + i_delta_x;
-		const int position_y = bottom_line + m_position_y + i_delta_y;
-		if (position_x < 0 || position_x+m_width > m_field.GetWidth() 
-			|| position_y > m_field.GetHeight() || position_y < 0)
-			return false;
-		if (m_shape_array[i][bottom_line] != 0)
-			{
-			bottom_line_found = true;
-			if (!m_field.IsCellFree(position_x, position_y))
-				return false;
 			}
 		}
 
