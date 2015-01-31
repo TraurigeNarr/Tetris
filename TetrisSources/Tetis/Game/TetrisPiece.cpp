@@ -15,7 +15,7 @@ TetrisPiece::TetrisPiece(PieceType i_type, IField& i_field, ISolver* ip_solver)
 	{
 	Initialize();
 	m_next_position[0] = 0;
-	m_next_position[0] = 0;
+	m_next_position[1] = 0;
 	}
 
 TetrisPiece::~TetrisPiece()

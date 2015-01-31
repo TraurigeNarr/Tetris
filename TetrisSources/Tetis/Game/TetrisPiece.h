@@ -10,7 +10,7 @@ class TetrisPiece
 	private:
 		size_t m_shape_array[4][4];
 		bool m_move_made;
-		size_t m_next_position[2];
+		int m_next_position[2];
 		size_t m_position_x;
 		size_t m_position_y;
 
