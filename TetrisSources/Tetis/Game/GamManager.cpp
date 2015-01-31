@@ -32,6 +32,7 @@ GameManager::GameManager(const IRect& i_window_rect)
 	, mp_current(nullptr)
 	, mp_solver(nullptr)
 	, mp_randomizer(new BasicRandomizer())
+	, m_end_game(false)
 	{
 	}
 
@@ -47,11 +48,14 @@ void GameManager::Initialize()
 bool GameManager::CheckField()
 	{
 	const size_t up_line = mp_game_field->GetHeight() - 1;
-	const size_t f_width = mp_game_field->GetWidth();
-	for (size_t i = 0; i < f_width; ++i)
+	const size_t field_width = mp_game_field->GetWidth();
+	for (size_t i = 0; i < field_width; ++i)
 		{
 		if (!mp_game_field->IsCellFree(i, up_line))
+			{
+			m_end_game = true;
 			return false;
+			}
 		}
 	return true;
 	}

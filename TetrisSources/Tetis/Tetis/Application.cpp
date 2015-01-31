@@ -213,6 +213,7 @@ namespace TetrisGame
 			mp_manager->Draw(*mp_renderer);
 			// TODO: use correct time
 			mp_manager->Update(0.001f);
+			m_working = !mp_manager->IsEndGame();
 			mp_renderer->EndFrame();
 
 			SDK::uint64 elapsed_time = (GetAbsoluteMS() - start_time);

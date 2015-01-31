@@ -16,6 +16,7 @@ class GameManager
 		std::unique_ptr<ISolver> mp_solver;
 
 		std::unique_ptr<TetrisPiece> mp_current;
+		bool m_end_game;
 
 	private:
 		bool CheckField();
@@ -35,6 +36,8 @@ class GameManager
 
 		void Draw(IRenderer& i_renderer);
 		void Update(float i_elapsed_time);
+
+		bool IsEndGame() const { return m_end_game; }
 	};
 
 #endif

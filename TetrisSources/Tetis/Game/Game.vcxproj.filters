@@ -66,13 +66,13 @@
     <ClCompile Include="GameField.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="GamManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="TetrisPiece.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
     <ClCompile Include="BasicRandomizer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GamManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
