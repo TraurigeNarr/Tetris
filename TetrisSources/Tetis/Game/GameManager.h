@@ -5,7 +5,9 @@ struct IField;
 class ISolver;
 class IRandomizer;
 class TetrisPiece;
-class IRenderer;
+namespace SDK {
+	class IRenderer;
+} // SDK
 
 class GameManager
 	{
@@ -23,7 +25,7 @@ class GameManager
 
 	public:
 		GameManager(std::unique_ptr<IField>&& ip_game_field);
-		GameManager(const IRect& i_window_rect);
+		GameManager(const SDK::IRect& i_window_rect);
 		virtual ~GameManager();
 
 		void Initialize();
@@ -34,7 +36,7 @@ class GameManager
 		void SetSolver(std::unique_ptr<ISolver> ip_solver) { mp_solver = std::move(ip_solver); }
 		ISolver& GetSolver() { return *mp_solver; }
 
-		void Draw(IRenderer& i_renderer);
+		void Draw(SDK::IRenderer& i_renderer);
 		void Update(float i_elapsed_time);
 
 		bool IsEndGame() const { return m_end_game; }

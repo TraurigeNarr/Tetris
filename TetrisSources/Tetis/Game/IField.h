@@ -1,7 +1,9 @@
 #ifndef __FIELD_H__
 #define __FIELD_H__
 
-class IRenderer;
+namespace SDK {
+	class IRenderer;
+}
 
 /**
 Interface IField - represents rectangular field of cells.
@@ -28,7 +30,7 @@ struct IField
 	virtual void FreeCell(size_t x, size_t y) = 0;
 
 	virtual void Update(float i_elapsed_time) = 0;
-	virtual void Draw(IRenderer& i_renderer) = 0;
+	virtual void Draw(SDK::IRenderer& i_renderer) = 0;
 	};
 
 #endif

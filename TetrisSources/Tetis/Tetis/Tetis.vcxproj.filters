@@ -9,9 +9,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Main\Renderer">
-      <UniqueIdentifier>{0104d416-48af-445f-a302-e478abe34cf6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -19,9 +16,6 @@
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Main</Filter>
-    </ClInclude>
-    <ClInclude Include="OpenGLRenderer.h">
-      <Filter>Main\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,9 +30,6 @@
     </ClCompile>
     <ClCompile Include="Application.cpp">
       <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenGLRenderer.cpp">
-      <Filter>Main\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

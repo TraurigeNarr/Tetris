@@ -46,9 +46,6 @@
     <ClInclude Include="IRandomizer.h">
       <Filter>Core\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderer.h">
-      <Filter>Core\Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="ISolver.h">
       <Filter>Core\Interfaces</Filter>
     </ClInclude>

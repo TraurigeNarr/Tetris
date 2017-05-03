@@ -14,4 +14,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include <SupportSDK/Utilities/TypeDefines.h>
+#include <Utilities/TypeDefines.h>
+#include <GameCore/TypeDefinitions.h>
+#include <GameCore/Render/RenderTypes.h>

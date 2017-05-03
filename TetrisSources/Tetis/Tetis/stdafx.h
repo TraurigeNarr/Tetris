@@ -16,4 +16,7 @@
 
 #include <Windows.h>
 
-#include <SupportSDK/Utilities/TypeDefines.h>
+#include <GameCore/TypeDefinitions.h>
+#include <GameCore/Render/RenderTypes.h>
+
+#include <Utilities/TypeDefines.h>

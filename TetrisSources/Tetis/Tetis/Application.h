@@ -1,48 +1,36 @@
 #ifndef __TETRISAPPLICATION_H__
 #define __TETRISAPPLICATION_H__
 
-class IRenderer;
-class GameManager;
+#include <GameCore/CoreDelegate.h>
+#include "Game/GameManager.h"
+#include "Game/ISolver.h"
+#include "Game/IRandomizer.h"
 
 namespace TetrisGame
+{
+
+	class ApplicationDelegateImpl : public SDK::CoreDelegate
 	{
-	
-	class Application
+	private:
+		std::unique_ptr<GameManager> mp_manager;
+	public:
+		virtual ~ApplicationDelegateImpl() {}
+
+		virtual void OnCreate() override;
+		virtual void OnTerminate() override;
+
+		virtual void OnCollapse() override
 		{
-		private:
-			bool m_working;
+		}
+		virtual void OnActivate() override
+		{
+		}
 
-			std::unique_ptr<IRenderer> mp_renderer;
+		virtual void Update(float i_elapsed_time) override;
+		virtual void Draw() override;
 
-			std::unique_ptr<GameManager> mp_manager;
+	};
 
-		// win specific
-		private:
-			HINSTANCE mh_instance;
-			HWND			mh_window;
-
-			HDC hDC;
-			HGLRC hRC;
-			HANDLE hMutex;
-
-		private:
-			bool CreateWin32Window(HINSTANCE hInstance);
-
-		public:
-			Application();
-			~Application();
-
-			void Initialize(HINSTANCE ih_instance);
-			void Release();
-			void Start();
-			void RequestShutdown();
-
-			HINSTANCE GetInstance() const;
-			HWND GetWindow() const;
-		};
-
-	extern Application appInstance;
-
-	} // TetrisGame
+} // TetrisGame
 
 #endif

@@ -22,7 +22,7 @@ class GameField : public IField
 		size_t GetPosition(size_t x, size_t y) const;
 
 	public:
-		GameField(const IRect& i_window_rect, size_t i_field_width, size_t i_field_height);
+		GameField(const SDK::IRect& i_window_rect, size_t i_field_width, size_t i_field_height);
 		virtual ~GameField();
 
 		size_t GetWidth() const override { return m_field_width; }
@@ -33,7 +33,7 @@ class GameField : public IField
 		virtual void FreeCell(size_t x, size_t y) override;
 
 		virtual void Update(float i_elapsed_time) override;
-		virtual void Draw(IRenderer& i_renderer) override;
+		virtual void Draw(SDK::IRenderer& i_renderer) override;
 	};
 
 #endif

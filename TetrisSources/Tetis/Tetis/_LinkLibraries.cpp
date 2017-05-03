@@ -8,7 +8,7 @@
 
 #ifndef _STATIC//will need glew32d.dll or glew32.dll
 #ifdef _DEBUG
-#pragma comment(lib, "Debug\\Win32\\glew32d")
+#pragma comment(lib, "GameCore")
 #else
 #pragma comment(lib, "Release\\Win32\\glew32")
 #endif
