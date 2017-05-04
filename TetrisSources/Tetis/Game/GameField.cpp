@@ -40,6 +40,8 @@ GameField::GameField(const IRect& i_window_rect, size_t i_field_width, size_t i_
 void GameField::InitializeField()
 {
 	const size_t field_size = m_field_width*m_field_height;
+	m_field.clear();
+	m_field_colors.clear();
 	m_field.reserve(field_size);
 	m_field_colors.reserve(field_size);
 	for (size_t i = 0; i < field_size; ++i)
@@ -64,6 +66,11 @@ size_t GameField::GetPosition(size_t x, size_t y) const
 bool GameField::IsCellFree(size_t x, size_t y) const
 {
 	return m_field[GetPosition(x, y)] == false;
+}
+
+unsigned int GameField::GetColor(size_t x, size_t y) const
+{
+	return m_field_colors[GetPosition(x, y)];
 }
 
 void GameField::OccupyCell(size_t x, size_t y, unsigned int i_color)
@@ -131,5 +138,4 @@ void GameField::Draw(SDK::IRenderer& i_renderer)
 
 void GameField::Update(float i_elapsed_time)
 {
-
 }

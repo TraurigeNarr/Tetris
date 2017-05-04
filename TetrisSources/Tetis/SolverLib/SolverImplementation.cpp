@@ -4,46 +4,174 @@
 #include "Game/Problem.h"
 #include "Game/IPieceController.h"
 
+
+namespace
+{
+	class Figure
+	{
+	public:
+		virtual int GetXPos() = 0;
+		virtual int GetRotation() = 0;
+	};
+	/////////////////////////////////////////////////////////////////////////
+
+	class OFigure : public Figure
+	{
+	private:
+		const IField& m_IField;
+
+		bool _IsOverlapping(int xpos, int y_pos)
+		{
+			if (y_pos == 0)
+				return false;
+			return m_IField.IsCellFree(xpos, y_pos - 1) || m_IField.IsCellFree(xpos + 1, y_pos - 1);
+		}
+	public:
+		OFigure(const IField& i_IField)
+			: m_IField(i_IField)
+		{		}
+
+		virtual int GetXPos() override
+		{
+			int x_pos = 0;
+
+			for (int y_pos = 0; y_pos < (int)m_IField.GetHeight(); ++y_pos)
+			{
+				for (x_pos = 0; x_pos < (int)m_IField.GetWidth() - 1; ++x_pos)
+				{
+					if (m_IField.IsCellFree(x_pos, y_pos) && m_IField.IsCellFree(x_pos + 1, y_pos) && !_IsOverlapping(x_pos, y_pos))
+						return x_pos;
+				}
+			}
+
+			return x_pos;
+		}
+
+		virtual int GetRotation() override
+		{
+			return 0;
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+
+	class IFigure : public Figure
+	{
+	private:
+		const IField& m_IField;
+	public:
+		IFigure(const IField& i_IField)
+			: m_IField(i_IField)
+		{		}
+
+		virtual int GetXPos() override
+		{
+			int x_pos = 0;
+
+			for (int y_pos = 0; y_pos < (int)m_IField.GetHeight(); ++y_pos)
+			{
+				for (x_pos = 0; x_pos < (int)m_IField.GetWidth(); ++x_pos)
+				{
+					if (m_IField.IsCellFree(x_pos, y_pos))
+						return x_pos;
+				}
+			}
+
+			return x_pos;
+		}
+
+		virtual int GetRotation() override
+		{
+			return 0;
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+
+	class JFigure : public Figure
+	{
+	private:
+		const IField& m_IField;
+
+		bool _IsOverlapping(int xpos, int y_pos)
+		{
+			if (y_pos == 0)
+				return false;
+			return m_IField.IsCellFree(xpos, y_pos - 1) || m_IField.IsCellFree(xpos - 1, y_pos - 1);
+		}
+	public:
+		JFigure(const IField& i_IField)
+			: m_IField(i_IField)
+		{		}
+
+		virtual int GetXPos() override
+		{
+			int x_pos = 0;
+
+			for (int y_pos = 0; y_pos < (int)m_IField.GetHeight(); ++y_pos)
+			{
+				for (x_pos = 1; x_pos < (int)m_IField.GetWidth(); ++x_pos)
+				{
+					if (m_IField.IsCellFree(x_pos - 1, y_pos) && m_IField.IsCellFree(x_pos, y_pos) && !_IsOverlapping(x_pos, y_pos))
+						return x_pos;
+				}
+			}
+
+			return x_pos;
+		}
+
+		virtual int GetRotation() override
+		{
+			return 0;
+		}
+	};
+
+	//////////////////////////////////////////////////////////////////////////
+
+	std::unique_ptr<Figure> _GetFigureSolver(PieceType i_type, const IField& i_IField)
+	{
+		std::unique_ptr<Figure> solver;
+		switch (i_type)
+		{
+			case PieceType::O:
+				solver = std::make_unique<OFigure>(i_IField);
+				break;
+			case PieceType::I:
+				solver = std::make_unique<IFigure>(i_IField);
+				break;
+			case PieceType::J:
+				solver = std::make_unique<JFigure>(i_IField);
+				break;
+		}
+
+		return solver;
+	}
+}
+
+
+
 SolverImplementation::~SolverImplementation()
 {}
 
 void SolverImplementation::Solve(IPieceController& i_controller, const Problem& i_problem)
 {
-	if (i_problem.GetPieceType() == PieceType::O)
+	std::unique_ptr<Figure> solver = _GetFigureSolver(i_problem.GetPieceType(), i_problem.GetField());
+
+	int x_pos = solver->GetXPos();
+
+	int shift = i_problem.GetPieceX() - x_pos;
+
+	if (shift > 0)
 	{
-		size_t first_free_x = 0;
-		size_t min_y = i_problem.GetField().GetHeight();
-		bool found = false;
-		for (size_t i = 0; i < i_problem.GetField().GetWidth(); ++i)
-		{
-			for (size_t j = 0; j < i_problem.GetField().GetHeight(); ++j)
-			{
-				if (i_problem.GetField().IsCellFree(i, j))
-				{
-					if (j < min_y)
-					{
-						first_free_x = i;
-						min_y = j;
-						found = true;
-					}
-					break;
-				}
-			}
-		}
-		if (found)
-		{
-			int needed_shifts = (int)first_free_x - (int)i_problem.GetPieceX();
-			if (needed_shifts < 0)
-			{
-				for (int i = 0; i < -needed_shifts; ++i)
-					i_controller.Left();
-			}
-			else
-			{
-				for (int i = 0; i < needed_shifts; ++i)
-					i_controller.Right();
-			}
-		}
+		for (int i = 0; i < shift; ++i)
+			i_controller.Left();
 	}
-	
+	else
+	{
+		shift *= -1;
+		for (int i = 0; i < shift; ++i)
+			i_controller.Right();
+	}
+
+	i_controller.Drop();
 }

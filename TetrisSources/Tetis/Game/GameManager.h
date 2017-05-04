@@ -21,9 +21,12 @@ class GameManager
 
 		std::unique_ptr<TetrisPiece> mp_current;
 		bool m_end_game;
+		bool m_restart_game;
 
 	private:
 		bool CheckField();
+		void TryMatchLines();
+		void TryRestart();
 
 	public:
 		GameManager(std::unique_ptr<IField>&& ip_game_field);

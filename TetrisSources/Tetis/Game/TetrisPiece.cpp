@@ -13,6 +13,7 @@ TetrisPiece::TetrisPiece(PieceType i_type, IField& i_field, unsigned int i_color
 	, m_time_for_one_move(.1f)
 	, m_current_time(.0f)
 	, m_color(i_color)
+	, m_wait_drop(false)
 {
 	Initialize();
 	m_next_position[0] = 0;
@@ -132,7 +133,7 @@ bool TetrisPiece::CanMove(int i_delta_x, int i_delta_y) const
 			const int position_y = j + m_position_y + i_delta_y;
 			if (is_own_pos(position_x, position_y))
 				continue;
-			if (position_x < 0 || position_x > m_field.GetWidth()
+			if (position_x < 0 || position_x + m_width > m_field.GetWidth()+1
 				|| (position_y - j) + m_height > m_field.GetHeight() || position_y < 0)
 				return false;
 			if (!m_field.IsCellFree(position_x, position_y))
@@ -147,17 +148,18 @@ bool TetrisPiece::CanMove(int i_delta_x, int i_delta_y) const
 
 void TetrisPiece::PrepareMove(float i_elapsed_time)
 {
-	if (!CanMove(0, -1))
+	if (!CanMove(m_next_position[0], m_next_position[1]-1))
 	{
 		m_destroyed = true;
 		return;
 	}
 	m_current_time += i_elapsed_time;
-	if (m_current_time < m_time_for_one_move)
+	const bool move_with_drop = (m_wait_drop && m_current_time > 0.02f);
+	const bool move_with_time = m_current_time > m_time_for_one_move;
+	if (!move_with_drop && !move_with_time)
 		return;
 	m_current_time = .0f;
-	m_next_position[0] = 0;
-	m_next_position[1] = -1;
+	m_next_position[1] -= 1;
 }
 
 void TetrisPiece::Move()
@@ -211,7 +213,8 @@ void TetrisPiece::TurnLeft()
 
 void TetrisPiece::MoveLeft()
 {
-	if (CanMove(-1, 0))
+	UpdateField(true);
+	if (CanMove(m_next_position[0] - 1, 0))
 	{
 		m_next_position[0] -= 1;
 	}
@@ -219,8 +222,14 @@ void TetrisPiece::MoveLeft()
 
 void TetrisPiece::MoveRight()
 {
-	if (CanMove(1, 0))
+	UpdateField(true);
+	if (CanMove(m_next_position[0] + 1, 0))
 	{
 		m_next_position[0] += 1;
 	}
+}
+
+void TetrisPiece::Drop()
+{
+	m_wait_drop = true;
 }

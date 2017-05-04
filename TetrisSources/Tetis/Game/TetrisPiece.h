@@ -29,6 +29,8 @@ private:
 
 	unsigned int m_color;
 
+	bool m_wait_drop;
+
 private:
 	void UpdateField(bool i_free_cells);
 	void Initialize();
@@ -51,11 +53,15 @@ public:
 	void Update(float i_elapsed_time);
 
 	bool IsDestroyed() const { return m_destroyed; }
+	
+	void SetSolved() { m_move_made = true; }
+	bool IsMoveMade() const { return m_move_made; }
 
 	void TurnRight();
 	void TurnLeft();
 	void MoveLeft();
 	void MoveRight();
+	void Drop();
 };
 
 #endif

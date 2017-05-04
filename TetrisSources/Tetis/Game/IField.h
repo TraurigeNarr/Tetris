@@ -23,6 +23,8 @@ struct IField
 	/// Tests whether cell is free
 	virtual bool IsCellFree(size_t x, size_t y) const = 0;
 
+	virtual unsigned int GetColor(size_t x, size_t y) const = 0;
+
 	/// Marks cell as occupied
 	virtual void OccupyCell(size_t x, size_t y, unsigned int i_color) = 0;
 
