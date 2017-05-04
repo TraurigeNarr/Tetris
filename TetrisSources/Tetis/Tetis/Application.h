@@ -5,6 +5,7 @@
 #include "Game/GameManager.h"
 #include "Game/ISolver.h"
 #include "Game/IRandomizer.h"
+#include "Game/IPieceController.h"
 
 namespace TetrisGame
 {

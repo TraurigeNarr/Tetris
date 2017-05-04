@@ -98,6 +98,7 @@
     <ClInclude Include="IRandomizer.h" />
     <ClInclude Include="ISolver.h" />
     <ClInclude Include="PieceType.h" />
+    <ClInclude Include="Problem.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TetrisPiece.h" />
     <ClInclude Include="TetrisTypes.h" />

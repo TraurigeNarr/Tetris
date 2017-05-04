@@ -41,9 +41,12 @@ void GameField::InitializeField()
 {
 	const size_t field_size = m_field_width*m_field_height;
 	m_field.reserve(field_size);
-
+	m_field_colors.reserve(field_size);
 	for (size_t i = 0; i < field_size; ++i)
+	{
 		m_field.push_back(false);
+		m_field_colors.push_back(0);
+	}
 }
 
 GameField::~GameField()
@@ -63,14 +66,18 @@ bool GameField::IsCellFree(size_t x, size_t y) const
 	return m_field[GetPosition(x, y)] == false;
 }
 
-void GameField::OccupyCell(size_t x, size_t y)
+void GameField::OccupyCell(size_t x, size_t y, unsigned int i_color)
 {
-	m_field[GetPosition(x, y)] = true;
+	size_t pos = GetPosition(x, y);
+	m_field[pos] = true;
+	m_field_colors[pos] = i_color;
 }
 
 void GameField::FreeCell(size_t x, size_t y)
 {
+	size_t pos = GetPosition(x, y);
 	m_field[GetPosition(x, y)] = false;
+	m_field_colors[pos] = 0;
 }
 
 void GameField::Draw(SDK::IRenderer& i_renderer)
@@ -114,8 +121,8 @@ void GameField::Draw(SDK::IRenderer& i_renderer)
 		{
 			int row = i / m_field_width;
 			int collumn = i % m_field_width;
-			Vector3D center = VectorConstructor<float>::Construct(bottomleft[0] + m_cell_size*(collumn + 0.5f), bottomleft[1] - m_cell_size*(row + 0.5f), 0.f);
-			i_renderer.RenderRectangle(center, m_cell_size - 1.f, m_cell_size - 1.f, Color(0, 100, 0, 255));
+			Vector3 center = Vector3{ bottomleft[0] + m_cell_size*(collumn + 0.5f), bottomleft[1] - m_cell_size*(row + 0.5f), 0.f };
+			i_renderer.RenderRectangle(center, m_cell_size - 1.f, m_cell_size - 1.f, Color(m_field_colors[i]));
 		}
 	}
 	i_renderer.PopMatrix();

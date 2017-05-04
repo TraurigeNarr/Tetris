@@ -11,7 +11,7 @@ Each cell can be either free or occupied.
 IMPORTANT: zero y means bottom of the field
 */
 struct IField
-	{
+{
 	virtual ~IField() {}
 
 	/// Returns width of the field
@@ -24,13 +24,13 @@ struct IField
 	virtual bool IsCellFree(size_t x, size_t y) const = 0;
 
 	/// Marks cell as occupied
-	virtual void OccupyCell(size_t x, size_t y) = 0;
+	virtual void OccupyCell(size_t x, size_t y, unsigned int i_color) = 0;
 
 	/// Marks cell as free
 	virtual void FreeCell(size_t x, size_t y) = 0;
 
 	virtual void Update(float i_elapsed_time) = 0;
 	virtual void Draw(SDK::IRenderer& i_renderer) = 0;
-	};
+};
 
 #endif

@@ -9,7 +9,7 @@ class BasicRandomizer : public IRandomizer
 		BasicRandomizer();
 		~BasicRandomizer();
 
-		virtual std::unique_ptr<TetrisPiece> GetNext(IField& i_field, ISolver* ip_solver) const override;
+		virtual std::unique_ptr<TetrisPiece> GetNext(IField& i_field) const override;
 	};
 
 #endif

@@ -9,6 +9,7 @@
 #include "IPieceController.h"
 #include "PieceType.h"
 #include "BasicRandomizer.h"
+#include "Problem.h"
 
 #include <time.h>
 #include <GameCore/Render/IRenderer.h>
@@ -18,10 +19,41 @@ namespace
 	class RandomizerBase : public IRandomizer
 	{
 	public:
-		virtual std::unique_ptr<TetrisPiece> GetNext(IField& i_field, ISolver* ip_solver) const override
+		virtual std::unique_ptr<TetrisPiece> GetNext(IField& i_field) const override
 		{
-			return std::unique_ptr<TetrisPiece>(new TetrisPiece(PieceType::O, i_field, ip_solver));
+			return std::unique_ptr<TetrisPiece>(new TetrisPiece(PieceType::O, i_field, SDK::Color(0,100,0, 255).m_color));
 		}
+	};
+
+	class AutomaticController : public IPieceController
+	{
+	public:
+		AutomaticController(TetrisPiece& i_controlled_piece)
+			: m_controller_piece(i_controlled_piece)
+		{}
+
+		virtual void Left() override
+		{
+			m_controller_piece.MoveLeft();
+		}
+
+		virtual void Right() override
+		{
+			m_controller_piece.MoveRight();
+		}
+
+		virtual void Rotate() override
+		{
+			
+		}
+
+		virtual void Drop() override
+		{
+			
+		}
+
+	private:
+		TetrisPiece& m_controller_piece;
 	};
 }
 
@@ -44,8 +76,8 @@ GameManager::~GameManager()
 
 void GameManager::Initialize()
 {
-	mp_current = mp_randomizer->GetNext(*mp_game_field, mp_solver.get());
-	srand(time(nullptr));
+	mp_current = mp_randomizer->GetNext(*mp_game_field);
+	srand((unsigned int)time(nullptr));
 }
 
 bool GameManager::CheckField()
@@ -70,11 +102,22 @@ void GameManager::Draw(SDK::IRenderer& i_renderer)
 
 void GameManager::Update(float i_elapsed_time)
 {
-	if (mp_current != nullptr)
+	if (mp_current != nullptr && !mp_current->IsDestroyed())
 	{
+		if (mp_solver)
+		{
+			AutomaticController basic_controller(*mp_current);
+			IPieceController* controller = mp_pice_controller.get();
+			// if no controller was set use default
+			if (controller == nullptr)
+				controller = &basic_controller;
+
+			Problem problem(*mp_game_field, mp_current->GetType(), mp_current->GetX(), mp_current->GetY());
+			mp_solver->Solve(*controller, problem);
+		}
 		mp_current->Update(i_elapsed_time);
 		if (mp_current->IsDestroyed() && CheckField())
-			mp_current = mp_randomizer->GetNext(*mp_game_field, mp_solver.get());
+			mp_current = mp_randomizer->GetNext(*mp_game_field);
 	}
 
 	mp_game_field->Update(i_elapsed_time);

@@ -1,15 +1,15 @@
 #ifndef __ISOLVER_H__
 #define __ISOLVER_H__
 
+class Problem;
 class IPieceController;
-struct IField;
 
 class ISolver
-	{
-	public:
-		virtual ~ISolver(){}
+{
+public:
+	virtual ~ISolver() {}
 
-		virtual void Solve(IPieceController& i_controller, const IField& i_field) = 0;
-	};
+	virtual void Solve(IPieceController& i_controller, const Problem& i_problem) = 0;
+};
 
 #endif

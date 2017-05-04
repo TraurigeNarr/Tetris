@@ -7,7 +7,7 @@ class SolverImplementation : public ISolver
 	{
 	public:
 		virtual ~SolverImplementation();
-		virtual void Solve(IPieceController& i_controller, const IField& i_field) override;
+		virtual void Solve(IPieceController& i_controller, const Problem& i_problem) override;
 	};
 
 #endif
