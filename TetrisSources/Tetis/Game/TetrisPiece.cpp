@@ -37,12 +37,14 @@ void TetrisPiece::CalculateSize()
 	m_height = 0;
 	// should be reverse cycle -> 4 .. 0
 	for (size_t i = 0; i < 4; ++i)
+	{
 		for (size_t j = 0; j < 4; ++j)
 			if (m_shape_array[i][j] != 0)
 			{
 				m_width = i;
 				m_height = std::max(j, m_height);
 			}
+	}
 	++m_width;
 	++m_height;
 }
