@@ -13,6 +13,11 @@
 
 #include <time.h>
 #include <GameCore/Render/IRenderer.h>
+#include <GameCore/Resources/ResourceManager.h>
+#include <GameCore/Core.h>
+#include <GameCore/Render/Fonts/FontManager.h>
+#include <GameCore/Render/ScopedMatrixTransformation.h>
+#include <GameCore/Render/LightsController.h>
 
 namespace
 {
@@ -79,6 +84,9 @@ GameManager::~GameManager()
 
 void GameManager::Initialize()
 {
+	auto p_load_manager = SDK::Core::GetGlobalObject<SDK::Resources::ResourceManager>();
+	p_load_manager->LoadResourceSet("Resources\\ResourceSets\\tetris.res");
+
 	mp_current = mp_randomizer->GetNext(*mp_game_field);
 	srand((unsigned int)time(nullptr));
 }
@@ -163,9 +171,33 @@ void GameManager::TryRestart()
 	}
 }
 
+#include <string>
+#include <iostream>
+
 void GameManager::Draw(SDK::IRenderer& i_renderer)
 {
+	using namespace SDK;
+	i_renderer.SetProjectionType(SDK::Render::ProjectionType::Orthographic);
+	i_renderer.SetMatrixMode(SDK::MatrixMode::Projection);
+	
 	mp_game_field->Draw(i_renderer);
+
+	auto p_renderer = Core::GetRenderer();
+	auto p_lights = p_renderer->GetLightsController();
+	p_lights->EnableLighting();
+
+	//Render::ScopedMatrixTransformation scopedMatrix(p_renderer);
+	IRect rect = p_renderer->GetTargetRectangle();
+	Matrix4f proj = p_renderer->GetMatrix(MatrixMode::Projection);
+
+	p_renderer->SetMatrix(MatrixMode::Projection, Matrix4f::CreateOrtho(0, rect.Width(), 0, rect.Height()));
+	auto arial_font = Core::GetGlobalObject<Resources::ResourceManager>()->GetHandleToResource<Render::Font>("Arial");
+	int score = 0;
+	std::wstring message = L"¬аш счЄт: " + std::to_wstring(score);
+	SDK::Core::GetGlobalObject<Render::FontManager>()->Render({ 30, 850 }, 0.7f, message, arial_font);
+	p_renderer->SetMatrix(MatrixMode::Projection, proj);
+	
+	p_renderer->SetMatrixMode(MatrixMode::ModelView);
 }
 
 void GameManager::Update(float i_elapsed_time)

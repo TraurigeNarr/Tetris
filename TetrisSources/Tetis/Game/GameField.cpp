@@ -88,10 +88,7 @@ void GameField::FreeCell(size_t x, size_t y)
 }
 
 void GameField::Draw(SDK::IRenderer& i_renderer)
-{
-	i_renderer.SetProjectionType(SDK::Render::ProjectionType::Orthographic);
-	i_renderer.SetMatrixMode(SDK::MatrixMode::Projection);
-	
+{	
 	i_renderer.PushMatrix();
 	i_renderer.ModifyCurrentMatrix(Matrix4f::MakeScale(Vector3{ 1.f,-1.f,1.f }));
 	i_renderer.GetLightsController()->DisableLighting();
@@ -133,7 +130,6 @@ void GameField::Draw(SDK::IRenderer& i_renderer)
 		}
 	}
 	i_renderer.PopMatrix();
-	i_renderer.SetMatrixMode(SDK::MatrixMode::ModelView);
 }
 
 void GameField::Update(float i_elapsed_time)
