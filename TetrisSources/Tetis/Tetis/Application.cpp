@@ -23,7 +23,7 @@ namespace TetrisGame
 	}
 	void ApplicationDelegateImpl::OnTerminate()
 	{
-
+		mp_manager->Release();
 	}
 
 	void ApplicationDelegateImpl::Update(float dt)

@@ -12,9 +12,6 @@
 
 #include "BasicRandomizer.h"
 
-#include <time.h>
-#include <string>
-#include <iostream>
 #include <GameCore/Render/IRenderer.h>
 #include <GameCore/Resources/ResourceManager.h>
 #include <GameCore/Core.h>
@@ -22,6 +19,13 @@
 #include <GameCore/Render/ScopedMatrixTransformation.h>
 #include <GameCore/Render/LightsController.h>
 #include <GameCore/PropertyReaders.h>
+#include <GameCore/FileSystem/FileSystem.h>
+#include <GameCore/Applications/ApplicationBase.h>
+
+#include <time.h>
+#include <string>
+#include <iostream>
+#include <fstream>
 
 namespace
 {
@@ -165,6 +169,7 @@ void GameManager::Initialize()
 
 	m_restart_game = root.GetValue<bool>("restart_game");
 
+	root = reader.Parse("Resources\\Configs\\user.conf");
 	m_current_level = root.GetValue<int>("current_level") - 1;
 	m_current_level = std::max(0, m_current_level);
 	if (m_levels.empty())
@@ -177,6 +182,22 @@ void GameManager::Initialize()
 	}
 
 	mp_current = mp_randomizer->GetNext(*mp_game_field);
+}
+
+void GameManager::Release()
+{
+	const auto app_path = SDK::FS::GetApplicationPath();
+	auto path = app_path;
+	path.append("\\").append("Resources\\Configs\\user.conf");
+
+	std::fstream stream;
+	stream.open(path, std::fstream::binary | std::fstream::out);
+	if (stream.is_open() && stream.good())
+	{
+		stream << "current_level = " << m_current_level;
+		stream.flush();
+		stream.close();
+	}
 }
 
 bool GameManager::CheckField()
@@ -290,6 +311,10 @@ void GameManager::TryRestart()
 			mp_randomizer->SetParameters(m_levels[m_current_level].pieces);
 		}
 		mp_current = mp_randomizer->GetNext(*mp_game_field);
+	}
+	else
+	{
+		SDK::Core::GetApplication()->RequestShutdown();
 	}
 }
 

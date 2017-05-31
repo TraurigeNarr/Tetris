@@ -50,6 +50,7 @@ class GameManager
 		virtual ~GameManager();
 
 		void Initialize();
+		void Release();
 
 		void SetRandomizer(std::unique_ptr<IRandomizer> ip_randomizer) { mp_randomizer = std::move(ip_randomizer); }
 		IRandomizer& GetRandomizer() { return *mp_randomizer; }
