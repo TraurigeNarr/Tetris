@@ -57,8 +57,6 @@ public:
 	void SetSolved() { m_move_made = true; }
 	bool IsMoveMade() const { return m_move_made; }
 
-	void TurnRight();
-	void TurnLeft();
 	void MoveLeft();
 	void MoveRight();
 	void Rotate();

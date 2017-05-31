@@ -5,34 +5,32 @@ class TetrisPiece;
 struct IField;
 enum class PieceType;
 
-struct RandomizerParameters
+struct TypeParameters
 {
-	struct TypeParameters
-	{
-		PieceType		m_piece;
-		unsigned int	m_color;
-		bool			m_rotate;
+	PieceType		m_piece;
+	unsigned int	m_color;
+	int				m_probability;
 
-		TypeParameters(PieceType i_type, bool i_rotate, unsigned int i_color)
-			: m_piece(i_type)
-			, m_rotate(i_rotate)
-			, m_color(i_color)
-		{}
-	};
-	std::vector<TypeParameters> m_type_for_generation;
+	TypeParameters(PieceType i_type, int i_probability, unsigned int i_color)
+		: m_piece(i_type)
+		, m_probability(i_probability)
+		, m_color(i_color)
+	{}
 };
 
+using RandomizerParameters = std::vector<TypeParameters>;
+
 class IRandomizer
-	{
-	protected:
-		RandomizerParameters m_parameters;
+{
+protected:
+	RandomizerParameters m_parameters;
+	
+public:
+	virtual ~IRandomizer() {}
 
-	public:
-		virtual ~IRandomizer(){}
-
-		const RandomizerParameters& GetParameters() const { return m_parameters; }
-		void SetParameters(const RandomizerParameters& i_parameters) { m_parameters = i_parameters; }
-		virtual std::unique_ptr<TetrisPiece> GetNext(IField& i_field) const = 0;
-	};
+	virtual void SetParameters(RandomizerParameters i_parameters) { m_parameters = i_parameters; }
+	virtual std::unique_ptr<TetrisPiece> GetNext(IField& i_field) const = 0;
+	virtual std::vector<PieceType> GetNextPieces() const { return std::vector<PieceType>(); }
+};
 
 #endif

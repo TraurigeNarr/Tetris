@@ -1,6 +1,8 @@
 #ifndef	__GAMEMANAGER_H__
 #define __GAMEMANAGER_H__
 
+#include "IRandomizer.h"
+
 struct IField;
 class ISolver;
 class IPieceController;
@@ -9,6 +11,13 @@ class TetrisPiece;
 namespace SDK {
 	class IRenderer;
 } // SDK
+
+struct LvlSettings
+{
+	int lvl_number = 0;
+	int needed_score = 0;
+	RandomizerParameters pieces;
+};
 
 class GameManager
 	{
@@ -22,11 +31,18 @@ class GameManager
 		std::unique_ptr<TetrisPiece> mp_current;
 		bool m_end_game;
 		bool m_restart_game;
+		bool m_win;
+		bool m_flush_progress = false;
+		int m_score;
+		
+		std::vector<LvlSettings> m_levels;
+		int m_current_level = 0;
 
 	private:
 		bool CheckField();
 		void TryMatchLines();
 		void TryRestart();
+		void TryMoveNextLevel();
 
 	public:
 		GameManager(std::unique_ptr<IField>&& ip_game_field);

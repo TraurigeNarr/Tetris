@@ -205,14 +205,6 @@ void TetrisPiece::Update(float i_elapsed_time)
 	UpdateField(false);
 }
 
-void TetrisPiece::TurnRight()
-{
-}
-
-void TetrisPiece::TurnLeft()
-{
-}
-
 void TetrisPiece::MoveLeft()
 {
 	UpdateField(true);
