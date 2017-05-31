@@ -231,6 +231,43 @@ void TetrisPiece::MoveRight()
 	}
 }
 
+void TetrisPiece::Rotate()
+{
+	size_t m[4][4];
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 3; j >= 0; --j)
+		{
+			m[i][j] = m_shape_array[3-j][i];
+		}
+	}
+	size_t min_i = 4;
+	size_t min_j = 4;
+	for (size_t i = 0; i < 4; ++i)
+	{
+		for (size_t j = 0; j < 4; ++j)
+		{
+			if (m[i][j] != 0)
+			{
+				min_i = std::min(i, min_i);
+				min_j = std::min(j, min_j);
+			}
+		}
+	}
+
+	for (size_t i = 0; i < 4; ++i)
+	{
+		size_t m_i = i + min_i;
+		for (size_t j = 0; j < 4; ++j)
+		{
+			m_shape_array[i][j] = 0;
+			size_t m_j = j + min_j;
+			if (m_i < 4 && m_j < 4)
+				m_shape_array[i][j] = m[m_i][m_j];
+		}
+	}
+}
+
 void TetrisPiece::Drop()
 {
 	m_wait_drop = true;

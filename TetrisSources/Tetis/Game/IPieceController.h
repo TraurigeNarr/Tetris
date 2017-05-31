@@ -16,7 +16,7 @@ public:
 	virtual void Right() = 0;
 
 	/// Rotate the piece 90 degree clockwise (see contest documentation for details)
-	virtual void Rotate() = 0;
+	virtual void Rotate(int i_times) = 0;
 
 	/// Drop the piece
 	virtual void Drop() = 0;

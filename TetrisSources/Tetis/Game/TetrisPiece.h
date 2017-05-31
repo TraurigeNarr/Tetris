@@ -61,6 +61,7 @@ public:
 	void TurnLeft();
 	void MoveLeft();
 	void MoveRight();
+	void Rotate();
 	void Drop();
 };
 

@@ -47,9 +47,10 @@ namespace
 			m_controller_piece.MoveRight();
 		}
 
-		virtual void Rotate() override
+		virtual void Rotate(int i_times) override
 		{
-			
+			for (int i = 0; i < i_times; ++i)
+				m_controller_piece.Rotate();
 		}
 
 		virtual void Drop() override
