@@ -194,7 +194,7 @@ void GameManager::Release()
 	stream.open(path, std::fstream::binary | std::fstream::out);
 	if (stream.is_open() && stream.good())
 	{
-		stream << "current_level = " << m_current_level;
+		stream << "current_level = " << m_current_level + 1;
 		stream.flush();
 		stream.close();
 	}
@@ -363,6 +363,7 @@ void GameManager::Update(float i_elapsed_time)
 				controller = &basic_controller;
 
 			Problem problem(*mp_game_field, mp_current->GetType(), mp_current->GetX(), mp_current->GetY());
+			problem.level = m_current_level;
 			mp_solver->Solve(*controller, problem);
 			mp_current->SetSolved();
 		}

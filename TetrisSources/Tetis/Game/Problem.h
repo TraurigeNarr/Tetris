@@ -18,6 +18,9 @@ public:
 	size_t GetPieceX() const { return m_x; }
 	size_t GetPieceY() const { return m_y; }
 
+	/// For test purposes
+	int level = 0;
+
 private:
 	const IField& m_field;
 	PieceType m_type;
