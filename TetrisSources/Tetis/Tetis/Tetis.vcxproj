@@ -65,6 +65,21 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration);$(SolutionDir)..\Binaries\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\GameCore.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\Math.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\Patterns.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\Utilities.dll /B $(OutDir)
+
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\ThirdParty\install\$(Configuration)\assimp\bin\assimp-vc140-mt.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\ThirdParty\install\$(Configuration)\tinyxml\bin\tinyxml2.dll /B $(OutDir)
+
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\ThirdParty\install\$(Configuration)\glew\lib\glewd.dll /B $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -84,6 +99,21 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration);$(SolutionDir)..\Binaries\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\GameCore.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\Math.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\Patterns.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\Binaries\$(Configuration)\Utilities.dll /B $(OutDir)
+
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\ThirdParty\install\$(Configuration)\assimp\bin\assimp-vc140-mt.dll /B $(OutDir)
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\ThirdParty\install\$(Configuration)\tinyxml\bin\tinyxml2.dll /B $(OutDir)
+
+copy /Y /B $(SUPPORTSDK_ROOT)\Build\ThirdParty\install\$(Configuration)\glew\lib\glew.dll /B $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />

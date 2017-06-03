@@ -10,7 +10,7 @@
 #ifdef _DEBUG
 #pragma comment(lib, "GameCore")
 #else
-#pragma comment(lib, "Release\\Win32\\glew32")
+#pragma comment(lib, "GameCore")
 #endif
 #else//static libs
 #ifdef _DEBUG
